@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import type { FileRejection } from "react-dropzone";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { DogData, DragState } from "../types";
@@ -22,7 +23,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   });
 
   const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: File[]) => {
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
         const preview = URL.createObjectURL(file);
@@ -32,7 +33,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           image: file,
           imagePreview: preview,
         });
-      } else if (rejectedFiles.length > 0) {
+      } else if (fileRejections.length > 0) {
         alert("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
       }
     },
@@ -133,10 +134,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             </motion.button>
           </motion.div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <div
             {...getRootProps()}
             className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${getBorderColor()}`}
           >
@@ -181,7 +179,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 Choose Photo
               </motion.button>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </motion.div>
