@@ -7,7 +7,7 @@ export const predictDogThoughts = async (
 ): Promise<LLMResponse> => {
   // Simulate API call delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
-
+  console.log(imageFile);
   // Mock responses based on situation keywords
   const situationLower = situation.toLowerCase();
 
